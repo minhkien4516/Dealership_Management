@@ -1,0 +1,42 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+    {% include 'common/permanent_messages.html' %}
+
+    <div style="overflow-x: auto;">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Tên đại lý</th>
+                <th>Loại đại lý</th>
+                <th>Địa chỉ</th>
+                <th>Quận</th>
+                <th>Thành phố</th>
+                <th>Ngày đăng ký</th>
+                <th>Lý do</th>
+                <th>Xác nhận đơn huỷ đăng ký</th>
+            </tr>
+            {% for each in queue_dealerships %}
+                <tr>
+                    <td>{{ each.dealership.name }}</td>
+                    <td>{{ each.dealership.type }}</td>
+                    <td>{{ each.dealership.address }}</td>
+                    <td>{{ each.dealership.district }}</td>
+                    <td>{{ each.dealership.city }}</td>
+                    <td>{{ each.dealership.registration_date|date:'d/m/Y' }}</td>
+                    <td>{{ each.message }}</td>
+                    <td>
+                        <a type="submit" class="btn btn-primary btn-block"
+                           href="{% url 'approve-cancellation-form' each.dealership.pk %}">
+                            Chấp nhận
+                        </a>
+                        <a class="btn btn-danger btn-block"
+                           href="{% url 'reject-cancellation-form' each.dealership.pk %}">
+                            Từ chối
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

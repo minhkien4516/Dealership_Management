@@ -1,0 +1,40 @@
+{% extends 'repository/importation_form.html' %}
+{% load humanize %}
+{% load widget_tweaks %}
+
+{% block multiple_importation_form %}{% endblock %}
+
+{% block importation_form_to_be_filled %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="form-row">
+            {% for field in form %}
+                <div class="form-group col-md-3">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                </div>
+            {% endfor %}
+        </div>
+        <hr>
+    {% endfor %}
+    <div class="form-row">
+        {% for field in importation_form %}
+            <div class="form-group col-md-3">
+                {{ field.label_tag }}
+                {% render_field field class="form-control" %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block products %}
+    {% for form in importation_detail_forms %}
+        <tr>
+            <td>{{ form.p_id }}</td>
+            <td>{{ form.p_name }}</td>
+            <td>{{ form.p_price|intcomma }}</td>
+            <td>{{ form.p_quantity }}</td>
+            <td>{{ form.p_total|intcomma }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

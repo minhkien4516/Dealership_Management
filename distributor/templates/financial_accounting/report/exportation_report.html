@@ -1,0 +1,52 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    {% include 'financial_accounting/report/report.html' %}
+
+    <h2 style="text-align: center">Báo cáo phiếu xuất tháng {{ current_month }}</h2>
+    <hr>
+
+    <div style="overflow-x: auto">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Tên đại lý</th>
+                <th>Địa chỉ</th>
+                <th>Quận</th>
+                <th>Thành phố</th>
+                <th>Số phiếu xuất</th>
+                <th>Tổng giá trị</th>
+                <th>Đã thanh toán</th>
+                <th>Công nợ</th>
+                <th>Chi tiết phiếu xuất</th>
+            </tr>
+            {% for form in exportation_forms %}
+                <tr>
+                    <form action="" method="post" id="exportation_form">
+                        {% csrf_token %}
+                        <td>{{ form.dealership_name }}</td>
+                        <td>{{ form.dealership_address }}</td>
+                        <td>{{ form.dealership_district }}</td>
+                        <td>{{ form.dealership_city }}</td>
+                        <td>{{ form.total_of_each_exportation_forms_of_dealership }}</td>
+                        <td>{{ form.financial_total_of_each }}</td>
+                        <td>{{ form.each_payed }}</td>
+                        <td>{{ form.debt_of_each }}</td>
+                        <td style="text-align: center;">
+                            <a href="{% url 'exportation-detail-form' form.dealership_id  current_month %}"
+                               class="btn btn-info btn-block">Xem</a>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th colspan="4" style="text-align: right; border: none">Tổng</th>
+                <td id="total_of_exportation_forms">{{ total_of_exportation_forms }}</td>
+                <td id="financial_total">{{ total|intcomma }}</td>
+                <td>{{ income|intcomma }}</td>
+                <td>{{ debt|intcomma }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

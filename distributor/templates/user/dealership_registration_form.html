@@ -1,0 +1,43 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    {% include 'common/permanent_messages.html' %}
+
+    <div id="dealership_registration_form">
+        <h1>Đăng ký đại lý</h1>
+
+        <form action="{% url 'dealership-registration' %}" method="post"
+            id="dealershipRegistrationForm">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form_group mb-2">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                </div>
+            {% endfor %}
+            <input type="submit" class="btn btn-primary btn-lg" value="Đăng ký">
+        </form>
+
+        <script src="{% static 'js/jquery/jquery-3.3.1.min.js' %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#id_city").change(function () {
+                    const url = '/user/dropdown';
+                    const cityId = $(this).val();
+                    $.ajax({
+                        url: url,
+                        data: {
+                            'city': cityId
+                        },
+                        success: function (data) {
+                            $("#id_district").html(data);
+                        }
+                    });
+                });
+            })
+        </script>
+    </div>
+{% endblock %}

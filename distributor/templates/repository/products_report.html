@@ -1,0 +1,114 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <h5 style="text-align: center" id="title">
+        <label for="month">Báo cáo hàng hoá tháng</label>
+        <select name="month" id="month" style="border: none; overflow: auto; height: 50%"
+                form="get_month_form">
+            {% for month in months %}
+                <option value="{{ month }}"
+                        selected="{% if month == '{{ current_month }}' %}selected{% endif %}">
+                    {{ month }}
+                </option>
+            {% endfor %}
+        </select>
+    </h5>
+
+    <hr>
+    <div class="row table table-bordered ml-0">
+        <div class="col-3" style='border-right: solid 1px #dee2e6'>Tên mặt hàng</div>
+        <div class="col-2" style='border-right: solid 1px #dee2e6'>Số lượng nhập</div>
+        <div class="col-2" style='border-right: solid 1px #dee2e6'>Số lượng xuất</div>
+        <div class="col-2" style='border-right: solid 1px #dee2e6'>Tồn kho</div>
+        <div class="col-3" style='border-right: solid 1px #dee2e6'>Ngày nhập</div>
+    </div>
+    <div id="products" class="table table-bordered">
+        {% for product in products %}
+            <div class="row ml-0">
+                <div class="col-3">
+                    {{ product.0 }}
+                </div>
+                <div class="col-2">
+                    {{ product.1 }}
+                </div>
+                <div class="col-2">
+                    {{ product.2 }}
+                </div>
+                <div class="col-2">
+                    {{ product.3 }}
+                </div>
+                <div class="col-3">
+                    {{ product.4 }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    {% if products.has_other_pages %}
+        <table>
+            <tr class="pagination">
+                {% if products.has_previous %}
+                    <td class="page-item"><a class="page-link"
+                                             href="?page={{ products.previous_page_number }}">&laquo;</a></td>
+                {% else %}
+                    <td class="page-item disabled"><span class="page-link">&laquo;</span></td>
+                {% endif %}
+                {% for i in products.paginator.page_range %}
+                    {% if products.number == i %}
+                        <td class="active page-item"><span class="page-link">{{ i }} <span
+                                class="sr-only">(current)</span></span></td>
+                    {% else %}
+                        <td class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></td>
+                    {% endif %}
+                {% endfor %}
+                {% if products.has_next %}
+                    <td class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">&raquo;</a>
+                    </td>
+                {% else %}
+                    <td class="page-item disabled"><span class="page-link">&raquo;</span></td>
+                {% endif %}
+            </tr>
+        </table>
+    {% endif %}
+
+    <script src="{% static 'js/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#month").change(function () {
+                const chosen_month = document.querySelector("#month");
+                const chosen_month_val = chosen_month.options[chosen_month.selectedIndex].value;
+                $.ajax({
+                    url: '/repository/products-report',
+                    type: 'get',
+                    data: {
+                        month: chosen_month_val,
+                    },
+                    success: function (response) {
+                        let products = "<div class='row ml-0'>";
+                        for (const p in response.products) {
+                            for (let i = 0; i < response.products[p].length; i++) {
+                                console.log(response.products[p][i]);
+                                if (i === 0 || i === response.products[p].length - 1) {
+                                    products += "<div class='col-3'>" +
+                                        response.products[p][i] +
+                                        "</div>";
+                                } else {
+                                    products += "<div class='col-2'>" +
+                                        response.products[p][i] +
+                                        "</div>";
+                                }
+                            }
+                        }
+                        products += "</div>"
+                        console.log($("#products").html())
+                        $("#products").html(products)
+                        console.log($("#products").html())
+                    },
+                });
+            });
+        });
+    </script>
+{% endblock %}

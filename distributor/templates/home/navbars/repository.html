@@ -1,0 +1,22 @@
+<li><a href="#">Hàng hoá</a>
+    <ul class="dropdown">
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'product-exportation' %}active{% endif %} nav-link"
+               href="{% url 'product-exportation' %}">
+                Xuất hàng
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'product-importation' %}active{% endif %} nav-link"
+               href="{% url 'product-importation' %}">
+                Nhập hàng
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="{% if request.resolver_match.url_name == 'products-report' %}active{% endif %} nav-item">
+    <a href="{% url 'products-report' %}" class="nav-link nav-item">
+        Báo cáo hàng hoá
+    </a>
+</li>
+

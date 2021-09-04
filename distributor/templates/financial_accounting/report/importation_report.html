@@ -1,0 +1,39 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+{% block content %}
+    {% include 'financial_accounting/report/report.html' %}
+
+    <h2 style="text-align: center">Báo cáo phiếu nhập tháng {{ current_month }}</h2>
+    <hr>
+
+    <div style="overflow-x: auto">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Ngày nhập</th>
+                <th>Tổng tiền</th>
+                <th>Đã trả</th>
+                <th>Công nợ</th>
+                <th>Chi tiết phiếu nhập</th>
+            </tr>
+            {% for importation_form in importation_forms %}
+                <tr>
+                    <td>{{ importation_form.importation_date|date:'d/m/Y' }}</td>
+                    <td>{{ importation_form.total|intcomma }}</td>
+                    <td>{{ importation_form.payed|intcomma }}</td>
+                    <td>{{ importation_form.debt|intcomma }}</td>
+                    <td style="text-align: center;">
+                        <a href="{% url 'importation-detail-form' importation_form.pk %}"
+                           class="btn btn-info btn-block">Xem</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th>Tổng</th>
+                <td>{{ total|intcomma }}</td>
+                <td>{{ payed|intcomma }}</td>
+                <td>{{ debt|intcomma }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

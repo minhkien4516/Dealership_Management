@@ -1,0 +1,47 @@
+{% load static %}
+{% load user_tags %}
+
+<div class="credit-main-menu" id="sticker">
+    <div class="classy-nav-container breakpoint-off">
+        <div class="container">
+            <!-- Menu -->
+            <nav class="classy-navbar justify-content-between" id="creditNav">
+                <!-- Navbar Toggler -->
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+                <!-- Menu -->
+                <div class="classy-menu">
+                    <!-- Close Button -->
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+                    <!-- Nav Start -->
+                    <div class="classynav">
+                        <ul>
+                            <li><a href="/">Trang chủ</a></li>
+                            {% if user.is_authenticated %}
+                                {% if user.is_staff %}
+                                    {% if user|has_group:"Repository" %}
+                                        {% include 'home/navbars/repository.html' %}
+                                    {% elif user|has_group:"Financial Accounting" %}
+                                        {% include 'home/navbars/financial_accounting.html' %}
+                                    {% elif user|has_group:"Local Business" %}
+                                        {% include 'home/navbars/local_business.html' %}
+                                    {% endif %}
+                                {% else %}
+                                    {% include 'home/navbars/authenticated_user.html' %}
+                                {% endif %}
+                            {% else %}
+                                {% include 'home/navbars/unauthenticated_user.html' %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="contact">
+                    <a href="#"><img src="{% static 'img/core-img/call2.png' %}" alt=""> +800 49 900 900</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>

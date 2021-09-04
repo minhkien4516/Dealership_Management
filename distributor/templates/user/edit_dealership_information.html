@@ -1,0 +1,104 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'common/permanent_messages.html' %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="dealership_name" class="col-sm-2 col-form-label">Tên đại lý:</label>
+            <div class="col-sm-10">
+                <input id="dealership_name" name="dealership_name"
+                       class="form-control" type="text" value="{{ dealership.name }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="dealership_name" class="col-sm-2 col-form-label">Thành phố:</label>
+            <div class="col-sm-10">
+                <input id="dealership_name" class="form-control" type="text"
+                       value="{{ dealership.city }}" readonly>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="dealership_name" class="col-sm-2 col-form-label">Quận:</label>
+            <div class="col-sm-10">
+                <input id="dealership_name" class="form-control" type="text"
+                       value="{{ dealership.district }}" readonly>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="dealership_name" class="col-sm-2 col-form-label">Địa chỉ:</label>
+            <div class="col-sm-10">
+                <input id="dealership_name" class="form-control" type="text"
+                       value="{{ dealership.address }}" name="dealership_address">
+                <small class="form-text text-muted">Chỉ được điều chỉnh địa chỉ trong phạm vi quận,
+                    không được điều chỉnh địa chỉ ở khu vực khác (thành phố, quận).</small>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-lg"
+                style="float: right"
+                data-toggle="modal"
+                data-target="#confirmationEditModal">
+            Cập nhật thông tin
+        </button>
+        <button type="button" class="btn btn-danger btn-lg"
+                data-toggle="modal"
+                data-target="#confirmationCancelModal">
+            Huỷ đăng ký
+        </button>
+
+        <div class="modal fade" id="confirmationEditModal" data-backdrop="static" tabindex="-1" role="dialog"
+             aria-labelledby="confirmationEditModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmationEditModalLongTitle">Thông báo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Bạn có chắc chắn muốn cập nhật thông tin đại lý?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                        <input type="submit" class="btn btn-primary" name="update" value="Cập nhật"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="confirmationCancelModal" data-backdrop="static" tabindex="-1" role="dialog"
+             aria-labelledby="confirmationCancelModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmationCancelModalLongTitle">Thông báo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Bạn có chắc chắn muốn huỷ đăng ký đại lý?</h3>
+                        {% if is_done %}
+                            <div class="form-group">
+                                <label for="message">Hãy cho chúng tôi biết lý do quý khách huỷ đăng ký, xin cảm
+                                    ơn!</label>
+                                <textarea class="form-control" rows="5" name="message" id="message"></textarea>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                        <input type="submit" class="btn btn-primary" name="cancel" value="Xác nhận huỷ đăng ký"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

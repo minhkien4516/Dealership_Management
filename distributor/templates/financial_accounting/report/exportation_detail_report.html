@@ -1,0 +1,59 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+    <h1 style="text-align: center">Đại lý: {{ dealership_name }}</h1>
+    {% for id, details in exportation_detail_forms.items %}
+        <div>
+            <h5>Mã phiếu xuất: {{ id }}</h5>
+            <div style="overflow-x: auto">
+                <table class="table table-bordered">
+                    <tr class="thead-dark">
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th>Ngày xuất phiếu</th>
+                    </tr>
+                    {% for detail in details %}
+                        <tr>
+                            <td>{{ detail.product }}</td>
+                            <td>{{ detail.product_price }}</td>
+                            <td>{{ detail.product_quantity }}</td>
+                            <td>{{ detail.total_price }}</td>
+                            <td>{{ detail.exportation_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+
+            {% if details.has_other_pages %}
+                <table>
+                    <tr class="pagination">
+                        {% if details.has_previous %}
+                            <td class="page-item"><a class="page-link" href="?page={{ details.previous_page_number }}">&laquo;</a>
+                            </td>
+                        {% else %}
+                            <td class="page-item disabled"><span class="page-link">&laquo;</span></td>
+                        {% endif %}
+                        {% for i in details.paginator.page_range %}
+                            {% if details.number == i %}
+                                <td class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                                </td>
+                            {% else %}
+                                <td class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></td>
+                            {% endif %}
+                        {% endfor %}
+                        {% if details.has_next %}
+                            <td class="page-item"><a class="page-link" href="?page={{ details.next_page_number }}">&raquo;</a>
+                            </td>
+                        {% else %}
+                            <td class="page-item disabled"><span class="page-link">&raquo;</span></td>
+                        {% endif %}
+                    </tr>
+                </table>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+{% endblock %}

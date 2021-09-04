@@ -1,0 +1,42 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+{% block content %}
+    {% include 'common/permanent_messages.html' %}
+    <div style="overflow-x: auto;">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Ngày nhập</th>
+                <th>Tổng tiền</th>
+                <th>Chi tiết phiếu nhập</th>
+                <th>Xác nhận phiếu nhập</th>
+            </tr>
+            {% for importation_request in importation_requests %}
+                <tr>
+                    <td>{{ importation_request.importation_date|date:'d/m/Y' }}</td>
+                    <td>{{ importation_request.total|intcomma }}</td>
+                    <td style="text-align: center;">
+                        <a href="{% url 'importation-detail-request' importation_request.pk %}"
+                           class="btn btn-info btn-block">Xem</a>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-6">
+                                <a type="submit" class="btn btn-primary btn-block"
+                                   href="{% url 'approve-importation-request' importation_request.pk %}">
+                                    Duyệt đơn
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <a class="btn btn-danger btn-block"
+                                   href="{% url 'reject-importation-request' importation_request.pk %}">
+                                    Từ chối
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

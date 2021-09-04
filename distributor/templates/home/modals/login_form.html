@@ -1,0 +1,28 @@
+{% load widget_tweaks %}
+
+<div class="modal fade" id="loginModal" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLongTitle">Đăng nhập</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="modal-body form-group-mb2">
+                    {% for field in login_form %}
+                        {{ field.label_tag }}
+                        {% render_field field class="form-control" %}
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                    <input type="submit" class="btn btn-primary" name="log_in" value="Đăng nhập"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

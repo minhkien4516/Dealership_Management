@@ -1,0 +1,65 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+    {% include 'common/temporary_messages.html' %}
+
+    <legend>Đơn đăng ký đại lý:</legend>
+    <div style="overflow-x: auto">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Tên đại lý</th>
+                <th>Địa chỉ</th>
+                <th>Ngày đăng ký</th>
+                <th>Loại</th>
+                <th>Tỉnh thành</th>
+                <th>Quận</th>
+                <th>Trạng thái</th>
+                <th>Chỉnh sửa đơn đăng ký</th>
+            </tr>
+
+            {% for dealership in dealerships_in_registration_queue %}
+                <tr>
+                    <td>{{ dealership.name }}</td>
+                    <td>{{ dealership.address }}</td>
+                    <td>{{ dealership.registration_date|date:"d/m/Y" }}</td>
+                    <td>{{ dealership.type }}</td>
+                    <td>{{ dealership.city }}</td>
+                    <td>{{ dealership.district }}</td>
+                    <td>{{ dealership.status }}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a class="btn btn-primary btn-block {% if dealership.is_done == True %}disabled{% endif %}"
+                                   href="{% url 'update-dealership-information' dealership.pk %}">
+                                    Chỉnh sửa
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <legend>Đơn huỷ đăng ký đại lý:</legend>
+    <div style="overflow-x:auto;">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Tên đại lý</th>
+                <th>Loại</th>
+                <th>Địa chỉ</th>
+                <th>Quận</th>
+                <th>Tỉnh thành</th>
+                <th>Ngày đăng ký</th>
+                <th>Trạng thái</th>
+            </tr>
+            {% for dealership, info in dealerships_in_cancellation_queue.items %}
+                <tr>
+                    {% for each in info %}
+                        <td>{{ each }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

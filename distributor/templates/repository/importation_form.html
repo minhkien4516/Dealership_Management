@@ -1,0 +1,93 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+{% load widget_tweaks %}
+
+{% block content %}
+    {% include 'common/temporary_messages.html' %}
+
+    <div id="importation_form">
+        <h1 class="my-3" style="text-align: center">Phiếu nhập hàng</h1>
+        <hr>
+    
+        {% block multiple_importation_form %}
+            {% include 'repository/multiple_importation_form.html' %}
+            <hr>
+        {% endblock %}
+    
+        {% block importation_form %}
+            <form action="" method="post">
+                {% csrf_token %}
+    
+                {% block importation_form_to_be_filled %}
+                    <div class="form-row">
+                        {% for field in importation_detail_form %}
+                            <div class="form-group col-md-3">
+                                {{ field.label_tag }}
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endfor %}
+                        {% for field in importation_form %}
+                            <div class="form-group col-md-3">
+                                {{ field.label_tag }}
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+                <div class="row">
+                    <div class="col-md-6 pb-2">
+                        <button type="submit" class="btn btn-info btn-lg btn-block" name="show">
+                            Hiển thị phiếu nhập hàng
+                        </button>
+                    </div>
+                    <div class="col-md-6 pb-2">
+                        <input type="submit" class="btn btn-primary btn-lg btn-block" name="save"
+                               value="Gửi yêu cầu nhập hàng">
+                    </div>
+                </div>
+            </form>
+        {% endblock %}
+    
+        <hr>
+        <div>
+            <table class="mb-4">
+                <tr>
+                    <th>Công nợ hiện tại:</th>
+                    <td>{{ debt|intcomma }}</td>
+                </tr>
+            </table>
+    
+    
+        </div>
+    
+        <h4>Thông tin sản phẩm</h4>
+        <div style="overflow-x: auto">
+            <table class="table table-bordered" style="width: 100%; text-align: center">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá thành</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+                </thead>
+                {% block products %}
+                    {% for form in forms %}
+                        <tr>
+                            <td>{{ form.p_id }}</td>
+                            <td>{{ form.p_name }}</td>
+                            <td>{{ form.p_price|intcomma }}</td>
+                            <td>{{ form.p_quantity }}</td>
+                            <td>{{ form.p_total|intcomma }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endblock %}
+                <tr>
+                    <th colspan="4" style="text-align: right">Tổng tiền</th>
+                    <td>{{ total|intcomma }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

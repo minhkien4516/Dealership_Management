@@ -1,0 +1,29 @@
+{% load widget_tweaks %}
+
+<div class="modal fade bd-example-modal-xl" id="registrationModal" data-backdrop="static" tabindex="-1"
+     role="dialog"
+     aria-labelledby="registrationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationModalLongTitle">Đăng ký tài khoản</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post" id="registration-form">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% for field in registration_form %}
+                        {{ field.label_tag }}
+                        {% render_field field class="form-control" %}
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                    <input type="submit" class="btn btn-primary" name="register" id="register" value="Đăng ký"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<li><a href="#">Đăng ký đại lý</a>
+    <ul class="dropdown">
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'dealership-registration' %}active{% endif %} nav-link"
+               href="{% url 'dealership-registration' %}">
+                Đơn đăng ký đại lý
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'dealerships-in-queue-of-current-user' %}active{% endif %} nav-link"
+               href="{% url 'dealerships-in-queue-of-current-user' %}">
+                Danh sách đơn chờ
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="nav-item">
+    <a class="{% if request.resolver_match.url_name == 'dealerships-of-current-user' %}active{% endif %} nav-link"
+       href="{% url 'dealerships-of-current-user' %}">
+        Danh sách đại lý
+    </a>
+</li>
+{% include 'home/navbars/guest_navbar.html' %}

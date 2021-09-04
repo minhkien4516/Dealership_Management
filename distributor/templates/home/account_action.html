@@ -1,0 +1,35 @@
+{% load static %}
+<div class="top-header-area">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 d-flex justify-content-between">
+                <!-- Logo Area -->
+                <div class="logo">
+                    <a href="base.html"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                </div>
+                <div class="top-contact-info d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                        <p class="badge badge-dark my-0 mr-3 px-2 py-2">
+                            Xin chào, {{ username }}
+                        </p>
+                        <a href="{% url 'user-logout' %}"
+                           class="">
+                            Đăng xuất
+                        </a>
+                    {% else %}
+                        <a href="#"
+                           data-toggle="modal"
+                           data-target="#registrationModal">
+                            Đăng ký tài khoản
+                        </a>
+                        <a href="#"
+                           data-toggle="modal"
+                           data-target="#loginModal">
+                            Đăng nhập
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

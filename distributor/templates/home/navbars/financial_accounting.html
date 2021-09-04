@@ -1,0 +1,23 @@
+<li class="nav-item">
+    <a class="{% if request.resolver_match.url_name == 'importation-request' %}active{% endif %} nav-link"
+       href="{% url 'importation-request' %}">
+        <span class="badge badge-pill badge-light">{{ number_of_importation_request.number_of_importation_request }}</span>
+        Yêu cầu nhập hàng
+    </a>
+</li>
+<li><a href="#">Báo cáo</a>
+    <ul class="dropdown">
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'importation-report' %}active{% endif %} nav-link"
+               href="{% url 'importation-report' %}">
+                Phiếu nhập
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'exportation-report' %}active{% endif %} nav-link"
+               href="{% url 'exportation-report' %}">
+                Phiếu xuất
+            </a>
+        </li>
+    </ul>
+</li>

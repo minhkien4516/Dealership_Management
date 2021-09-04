@@ -1,0 +1,13 @@
+<form action="" method="get" id="get_month_form">
+    <label for="month">Chọn tháng</label>
+    <select name="month" id="month" style="border: none"
+            form="get_month_form">
+        {% for month in months %}
+            <option value="{{ month }}"
+                    selected="{% if month == '{{ current_month }}' %} selected{% endif %}">
+                {{ month }}
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Chọn" name="choose_month">
+</form>

@@ -1,0 +1,35 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+{% block content %}
+    {% include 'common/temporary_messages.html' %}
+    <h1>Danh sách đại lý của {{ username }}</h1>
+
+    <div class="row">
+        {% for dealership in dealerships %}
+            <form action="" method="post" class="col-sm-4 px-2 py-2 form-group" id="myForm">
+                {% csrf_token %}
+                <div>
+                    <div class="card">
+                        <img class="card-img-top" src="https://placehold.co/600x400" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ dealership.name }}</h5>
+                            <p><b>Loại đại lý: </b>{{ dealership.type }}</p>
+                            <p>
+                                <b>Địa chỉ: </b>
+                                {{ dealership.address }}, {{ dealership.district }}, {{ dealership.city }}
+                            </p>
+                            <p><b>Ngày đăng ký: </b>{{ dealership.registration_date|date:'d/m/Y' }}</p>
+                            <p><b>Công nợ: </b>{{ dealership.debt|intcomma }} VND</p>
+
+                            <a class="btn btn-outline-primary btn-block"
+                                href="{% url 'update-dealership-information' dealership.id %}">
+                                Chỉnh sửa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        {% endfor %}
+    </div>
+{% endblock %}

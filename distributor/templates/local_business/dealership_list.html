@@ -1,0 +1,57 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+    <div style="overflow-x: auto">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Mã đại lý</th>
+                <th>Tên đại lý</th>
+                <th>Ngày đăng ký</th>
+                <th>Loại</th>
+                <th>Tỉnh thành</th>
+                <th>Quận</th>
+                <th>Công nợ</th>
+            </tr>
+            {% for dealership in dealerships %}
+                <tr>
+                    <td>{{ dealership.id }}</td>
+                    <td>{{ dealership.name }}</td>
+                    <td>{{ dealership.registration_date|date:'d/m/Y' }}</td>
+                    <td>{{ dealership.type }}</td>
+                    <td>{{ dealership.city }}</td>
+                    <td>{{ dealership.district }}</td>
+                    <td>{{ dealership.debt|intcomma }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% if dealerships.has_other_pages %}
+        <table>
+            <tr class="pagination">
+                {% if dealerships.has_previous %}
+                    <td class="page-item"><a class="page-link" href="?page={{ dealerships.previous_page_number }}">&laquo;</a>
+                    </td>
+                {% else %}
+                    <td class="page-item disabled"><span class="page-link">&laquo;</span></td>
+                {% endif %}
+                {% for i in dealerships.paginator.page_range %}
+                    {% if dealerships.number == i %}
+                        <td class="active page-item"><span class="page-link">{{ i }} <span
+                                class="sr-only">(current)</span></span></td>
+                    {% else %}
+                        <td class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></td>
+                    {% endif %}
+                {% endfor %}
+                {% if dealerships.has_next %}
+                    <td class="page-item"><a class="page-link"
+                                             href="?page={{ dealerships.next_page_number }}">&raquo;</a></td>
+                {% else %}
+                    <td class="page-item disabled"><span class="page-link">&raquo;</span></td>
+                {% endif %}
+            </tr>
+        </table>
+    {% endif %}
+{% endblock %}

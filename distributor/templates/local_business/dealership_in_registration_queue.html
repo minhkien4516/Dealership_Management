@@ -1,0 +1,77 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+    {% include 'common/permanent_messages.html' %}
+
+    <div style="overflow-x: auto;">
+        <table class="table table-bordered">
+            <tr class="thead-dark">
+                <th>Tên đại lý</th>
+                <th>Loại</th>
+                <th>Địa chỉ</th>
+                <th>Quận</th>
+                <th>Tỉnh thành</th>
+                <th>Ngày đăng ký</th>
+                <th>Người đăng ký</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Trạng thái</th>
+                <th>Xác nhận đơn đăng ký</th>
+            </tr>
+
+            {% for dealership in queue_dealerships %}
+                <tr>
+                    <td>{{ dealership.name }}</td>
+                    <td>{{ dealership.type }}</td>
+                    <td>{{ dealership.address }}</td>
+                    <td>{{ dealership.district }}</td>
+                    <td>{{ dealership.city }}</td>
+                    <td>{{ dealership.registration_date|date:"d/m/Y" }}</td>
+                    <td>{{ dealership.owner_name }}</td>
+                    <td>{{ dealership.owner_phone }}</td>
+                    <td>{{ dealership.owner_email }}</td>
+                    <td>{{ dealership.status }}</td>
+                    <td>
+                        <a type="submit" class="btn btn-primary btn-block"
+                           href="{% url 'approve-registration-form' dealership.pk %}">
+                            Chấp nhận
+                        </a>
+
+                        <a class="btn btn-danger btn-block"
+                           href="{% url 'reject-registration-form' dealership.pk %}">
+                            Từ chối
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+    {% if queue_dealerships.has_other_pages %}
+        <table>
+            <tr class="pagination">
+                {% if queue_dealerships.has_previous %}
+                    <td class="page-item"><a class="page-link"
+                                             href="?page={{ queue_dealerships.previous_page_number }}">&laquo;</a></td>
+                {% else %}
+                    <td class="page-item disabled"><span class="page-link">&laquo;</span></td>
+                {% endif %}
+                {% for i in queue_dealerships.paginator.page_range %}
+                    {% if queue_dealerships.number == i %}
+                        <td class="active page-item"><span class="page-link">{{ i }} <span
+                                class="sr-only">(current)</span></span></td>
+                    {% else %}
+                        <td class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></td>
+                    {% endif %}
+                {% endfor %}
+                {% if queue_dealerships.has_next %}
+                    <td class="page-item"><a class="page-link" href="?page={{ queue_dealerships.next_page_number }}">&raquo;</a>
+                    </td>
+                {% else %}
+                    <td class="page-item disabled"><span class="page-link">&raquo;</span></td>
+                {% endif %}
+            </tr>
+        </table>
+    {% endif %}
+{% endblock %}

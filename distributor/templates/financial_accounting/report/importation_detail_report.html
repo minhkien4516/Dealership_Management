@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div>
+        <h5>Mã phiếu nhập: {{ id }}</h5>
+        <div style="overflow-x: auto">
+            <table class="table table-bordered">
+                <tr class="thead-dark">
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+                {% for importation_detail_form in importation_detail_forms %}
+                    <tr>
+                        <td>{{ importation_detail_form.product_id }}</td>
+                        <td>{{ importation_detail_form.product_name }}</td>
+                        <td>{{ importation_detail_form.product_price|intcomma }}</td>
+                        <td>{{ importation_detail_form.product_quantity }}</td>
+                        <td>{{ importation_detail_form.total_price|intcomma }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

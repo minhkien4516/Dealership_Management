@@ -1,0 +1,117 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+
+{% block content %}
+    <div id="exportation_form">
+        {% include 'common/permanent_messages.html' %}
+        <h1 class="my-3" style="text-align: center">Phiếu xuất hàng</h1>
+        <hr>
+    
+        {% block multiple_exportation_form %}
+            {% include 'repository/multiple_exportation_form.html' %}
+            <hr>
+        {% endblock %}
+    
+        <form action="" method="post">
+            {% csrf_token %}
+    
+            {% block exportation_form_to_be_filled %}
+                <div class="form-row">
+                    {% for field in exportation_detail_form %}
+                        <div class="form-group col-md-3">
+                            {{ field.label_tag }}
+                            {% render_field field class="form-control" %}
+                        </div>
+                    {% endfor %}
+                    {% for field in exportation_form %}
+                        <div class="form-group col-md-3">
+                            {{ field.label_tag }}
+                            {% render_field field class="form-control" %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endblock %}
+    
+            <div class="row">
+                <div class="col-md-6 pb-2">
+                    <button type="submit"
+                            href="#exportationFormInfo"
+                            class="btn btn-info btn-lg btn-block" name="show">
+                        Hiển thị phiếu xuất hàng
+                    </button>
+                </div>
+                <div class="col-md-6 pb-2">
+                    <input type="submit"
+                           class="btn btn-primary btn-lg btn-block"
+                           {% if is_qualified == False or is_enough == False %}disabled{% endif %}
+                           name="save" value="Xác nhận xuất hàng">
+                </div>
+            </div>
+        </form>
+    
+        <hr>
+        <div>
+            <h4 id="exportationFormInfo">Thông tin đại lý</h4>
+            <table class="mb-4" style="overflow-x: hidden">
+                <tr>
+                    <th>Ngày xuất:</th>
+                    <td>{{ filled_exportation_form.date }}</td>
+                </tr>
+                <tr>
+                    <th>Tên đại lý:</th>
+                    <td>{{ filled_exportation_form.d_name }}</td>
+                </tr>
+                <tr>
+                    <th>Địa chỉ:</th>
+                    <td>{{ filled_exportation_form.d_address }}</td>
+                </tr>
+                <tr>
+                    <th>Công nợ:</th>
+                    <td>{{ filled_exportation_form.d_pre_debt|intcomma }}</td>
+                </tr>
+            </table>
+        </div>
+    
+        <div style="overflow-x: auto">
+            <h4>Thông tin sản phẩm</h4>
+            <table class="table table-bordered" style="width: 100%; text-align: center">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Ngày nhập</th>
+                    <th>Giá thành</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+                </thead>
+                {% block products %}
+                    <tr>
+                        {% for form in forms %}
+                            <td>{{ form.p_name }}</td>
+                            <td>{{ form.p_importation_date }}</td>
+                            <td>{{ form.p_price|intcomma }}</td>
+                            <td>{{ form.p_quantity }}</td>
+                            <td>{{ form.p_total|intcomma }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endblock %}
+                <tr>
+                    <th colspan="4" style="text-align: right">Tổng tiền</th>
+                    <td>{{ p_total|intcomma }}</td>
+                </tr>
+                <tr>
+                    <th colspan="4" style="text-align: right">Thanh toán</th>
+                    <td>{{ filled_exportation_form.d_payed|intcomma }}</td>
+                </tr>
+                <tr>
+                    <th colspan="4" style="text-align: right">Còn lại</th>
+                    <td>{{ filled_exportation_form.d_debt|intcomma }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+

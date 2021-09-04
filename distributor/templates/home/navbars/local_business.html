@@ -1,0 +1,28 @@
+<li><a href="#">
+    <span class="badge badge-pill badge-light">{{ num_of_total_undone_form.total }}</span>
+    Đơn yêu cầu
+    </a>
+    <ul class="dropdown">
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'dealership-registration-queue' %}active{% endif %} nav-link"
+               href="{% url 'dealership-registration-queue' %}">
+                <span class="badge badge-pill badge-info">{{ num_of_total_undone_form.regis }}</span>
+                Đơn đăng ký
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="{% if request.resolver_match.url_name == 'dealerships-in-cancellation-queue' %}active{% endif %} nav-link"
+               href="{% url 'dealerships-in-cancellation-queue' %}">
+                <span class="badge badge-pill badge-info">{{ num_of_total_undone_form.cancel }}</span>
+                Đơn huỷ đăng ký
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="nav-item">
+    <a class="{% if request.resolver_match.url_name == 'dealership-list' %}active{% endif %} nav-link"
+       href="{% url 'dealership-list' %}">
+        Danh sách các đại lý
+    </a>
+</li>
+
