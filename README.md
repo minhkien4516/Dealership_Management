@@ -1,5 +1,5 @@
 # Junior project
 
-## Dealership Management (MVC Architecture)
+## Dealership Management (MTV Architecture)
 
 ### Using Django framework as backend
